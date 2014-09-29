@@ -3,10 +3,7 @@ package com.util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.Properties;
 
 /**
@@ -55,4 +52,89 @@ public class PropUtil {
 
         return properties;
     }
+
+    /**
+     *  获取配置项信息
+     * @param key : 关键字
+     * @param propFileDir : 配置文件路径
+     * @return
+     */
+    public static String getProperty(String key, String propFileDir) {
+
+        InputStream stream = null;
+
+        try {
+            File tempPathFile = new File(propFileDir);
+            Properties pro = new Properties();
+            if (tempPathFile == null || !tempPathFile.exists()) {
+                return null;
+            } else {
+
+                stream = new FileInputStream(tempPathFile);
+                pro.load(stream);
+                stream.close();
+                return pro.getProperty(key);
+            }
+        } catch (FileNotFoundException e) {
+            logger.error(e);
+        } catch (IOException e) {
+            logger.error(e);
+        } finally {
+            try {
+                if (stream != null) {
+                    stream.close();
+                }
+            } catch (IOException e) {
+                logger.error(e);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     *  保存配置项信息
+     * @param key : 关键字
+     * @param value ： 值
+     * @param propFileDir : 配置文件路径
+     */
+    private void saveProperty(String key, String value, String propFileDir) {
+
+        Properties tempPathProp = new Properties();
+        FileOutputStream outputStream = null;
+        InputStream inputStream = null;
+        try {
+
+            File tempPathFile = new File(propFileDir);
+            if (!tempPathFile.exists())
+                tempPathFile.createNewFile();
+
+            if (tempPathFile != null && tempPathFile.exists()) {
+                inputStream = new FileInputStream(tempPathFile);
+                tempPathProp.load(inputStream);
+            }
+
+            tempPathProp.setProperty(key, value);
+            outputStream = new FileOutputStream(tempPathFile);
+            tempPathProp.store(outputStream, "");
+
+        } catch (FileNotFoundException e) {
+            logger.error(e);
+        } catch (IOException e) {
+            logger.error(e);
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                logger.error(e);
+            }
+        }
+    }
+
 }
