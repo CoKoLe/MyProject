@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--suppress ALL -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -36,20 +38,21 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 
     <!-- 对模型视图名称的解析,即在模型视图名称添加前后缀 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="" />
-        <property name="suffix" value="" />
+        <property name="prefix" value="/jsp"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="defaultEncoding" value="UTF-8" />
-        <property name="maxUploadSize" value="32505856" /><!-- 上传文件大小限制为31M，31*1024*1024 -->
-        <property name="maxInMemorySize" value="4096" />
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSize" value="32505856"/>
+        <!-- 上传文件大小限制为31M，31*1024*1024 -->
+        <property name="maxInMemorySize" value="4096"/>
     </bean>
 
-    <mvc:resources mapping="/css/**" location="/css/" />
-    <mvc:resources mapping="/images/**" location="/images/" />
-    <mvc:resources mapping="/js/**" location="/js/" />
-    <mvc:default-servlet-handler />
+    <mvc:resources mapping="/css/**" location="/css/"/>
+    <mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:default-servlet-handler/>
 
 </beans>
